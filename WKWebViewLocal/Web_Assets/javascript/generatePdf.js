@@ -304,7 +304,7 @@ function getPdf() {
 
     }
     const pdfDoc = pdfMake.createPdf(dd);
-
+    
     pdfDoc.getBase64((data) => {
         console.log('data:application/pdf;base64,' + data)
     });

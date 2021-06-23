@@ -75,7 +75,7 @@ class ViewController: UIViewController {
 
         do {
             let savedString = try String(contentsOfFile: filePath)
-
+            print("PATH", filePath)
             print(savedString)
         } catch {
             print("Error reading saved file")
@@ -84,7 +84,7 @@ class ViewController: UIViewController {
 
     private func save(text: String, toDirectory directory: String, withFileName fileName: String) {
         guard let filePath = self.append(toPath: directory, withPathComponent: fileName) else {return }
-
+        print("PATH", filePath)
         do {
             try text.write(toFile: filePath, atomically: true, encoding: .utf8)
         } catch {
@@ -136,12 +136,41 @@ extension ViewController: WKScriptMessageHandler {
             print("LOG: \(message.body)")
             let src = "<embed type=\"application/pdf\" src=\"\((message.body))\"/>"
             webView.loadHTMLString(src, baseURL: nil)
+            if let resultString = message.body as? String {
+                self.saveBase64StringToPDF(resultString)
+            }
             print("finished")
         default:
             print("default")
         }
 
     }
+
+    func saveBase64StringToPDF(_ base64String: String) {
+        let str = base64String.replacingOccurrences(of: "data:application/pdf;base64,", with: "")
+        guard
+            var documentsURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last,
+            let convertedData = Data(base64Encoded: str)
+            else {
+            // handle error when getting documents URL
+            return
+        }
+
+        // name your file however you prefer
+        documentsURL.appendPathComponent("yourFileName.pdf")
+
+        do {
+            try convertedData.write(to: documentsURL)
+        } catch {
+            // handle write error here
+        }
+
+        // if you want to get a quick output of where your
+        // file was saved from the simulator on your machine
+        // just print the documentsURL and go there in Finder
+        print("URLDOC", documentsURL)
+    }
+
 }
 
 extension ViewController: WKNavigationDelegate {
