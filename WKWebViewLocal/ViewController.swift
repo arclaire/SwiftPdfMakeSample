@@ -134,7 +134,7 @@ extension ViewController: WKScriptMessageHandler {
             present(alertController, animated: true, completion: nil)
         case "logHandler":
             print("LOG: \(message.body)")
-            let src = "<embed type=\"application/pdf\" src=\"\((message.body))\"/>"
+            let src = "<embed type=\"application/pdf\" width= 1000 src=\"\((message.body))\"/>"
             webView.loadHTMLString(src, baseURL: nil)
             if let resultString = message.body as? String {
                 self.saveBase64StringToPDF(resultString)
