@@ -73,6 +73,7 @@ class ViewControllerForm: FormViewController {
                     print("NotERROR")
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                    vc.strName = self.model.strName
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
