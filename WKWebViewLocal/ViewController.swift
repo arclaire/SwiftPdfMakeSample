@@ -5,13 +5,14 @@
 
 import UIKit
 import WebKit
-
+var isFirstLoad = true
 class ViewController: UIViewController {
     @IBOutlet weak var webView: WebView!
     var strName: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.webView.backgroundColor = .green
+
         webView.contentMode = .scaleAspectFit
         title = "WKWebView"
         webView.navigationDelegate = self
@@ -21,35 +22,31 @@ class ViewController: UIViewController {
 
         // inject JS to capture console.log output and send to iOS
         let source = "function captureLog(msg) { window.webkit.messageHandlers.logHandler.postMessage(msg); } window.console.log = captureLog;"
+
         let script = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
         webView.configuration.userContentController.addUserScript(script)
+
         // register the bridge script that listens for the output
         webView.configuration.userContentController.add(self, name: "logHandler")
 
         // Choose to load a file or a string
-        let loadFile = false
-
         if let filePath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "Web_Assets") {
-            if loadFile {
-                // load file
-                let filePathURL = URL.init(fileURLWithPath: filePath)
-                let fileDirectoryURL = filePathURL.deletingLastPathComponent()
-                webView.loadFileURL(filePathURL, allowingReadAccessTo: fileDirectoryURL)
-            } else {
-                do {
-                    // load html string - baseURL needs to be set for local files to load correctly
-                    let html = try String(contentsOfFile: filePath, encoding: .utf8)
-                    webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL?.appendingPathComponent("Web_Assets"))
-                } catch {
-                    print("Error loading html")
-                }
+
+            do {
+                // load html string - baseURL needs to be set for local files to load correctly
+                let html = try String(contentsOfFile: filePath, encoding: .utf8)
+                webView.loadHTMLString(html, baseURL: Bundle.main.resourceURL?.appendingPathComponent("Web_Assets"))
+            } catch {
+                print("Error loading html")
             }
+
         }
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.callJavascriptTapped()
+        self.callInjectData()
+
     }
 
     private func documentDirectory() -> String {
@@ -99,11 +96,11 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
 
-   private func callJavascriptTapped() {
+    private func callJavascriptTapped() {
         let script = "getPdf()"
         webView.evaluateJavaScript(script) { (result: Any?, error: Error?) in
             if let error = error {
-                print("evaluateJavaScript error: \(error.localizedDescription)")
+                print("evaluateJavaScript error: \(error)")
             } else {
                 print("evaluateJavaScript result: \(result ?? "")")
                 print("evaluateJavaScript ok = ")
@@ -115,6 +112,34 @@ class ViewController: UIViewController {
                 }
 
             }
+        }
+
+    }
+
+    private func callInjectData() {
+        // "send_message(\"\(self.value1)\", \"\(self.value2)\")"
+
+        let data = UtilsData.shared.modelForms[0].dictionary
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+            // here "jsonData" is the dictionary encoded in JSON data
+
+            let decoded = String(data: jsonData, encoding: .utf8)!
+
+            print("DECODED", decoded)
+            let script = "prepareData(\(decoded))"
+
+            self.webView.evaluateJavaScript(script) { (result: Any?, error: Error?) in
+                if let error = error {
+                    print("evaluateJavaScript error: \(error)")
+                } else {
+                    print("evaluateJavaScript result: \(result ?? "")")
+                    print("evaluateJavaScript ok = ")
+                     self.callJavascriptTapped()
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
         }
 
     }
@@ -151,7 +176,7 @@ extension ViewController: WKScriptMessageHandler {
         guard
             var documentsURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last,
             let convertedData = Data(base64Encoded: str)
-            else {
+        else {
             // handle error when getting documents URL
             return
         }
@@ -176,5 +201,7 @@ extension ViewController: WKScriptMessageHandler {
 extension ViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         print("didFinish navigation:")
+
     }
+
 }

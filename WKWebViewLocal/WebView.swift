@@ -14,4 +14,5 @@ class WebView: WKWebView {
         configuration.userContentController = controller
         super.init(frame: CGRect.zero, configuration: configuration)
     }
+
 }

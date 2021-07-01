@@ -10,11 +10,11 @@ import UIKit
 import Eureka
 
 class ViewControllerForm: FormViewController {
-    var model: ModelForm = ModelForm()
+    var model: [ModelForm] = [ModelForm]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        UtilsData.shared.getDataForm()
         LabelRow.defaultCellUpdate = { cell, _ in
             cell.contentView.backgroundColor = .red
             cell.textLabel?.textColor = .white
@@ -42,7 +42,10 @@ class ViewControllerForm: FormViewController {
                 if !row.isValid {
                     cell.titleLabel?.textColor = .red
                 } else {
-                    self.model.strName = cell.titleLabel?.text
+                    if let str = cell.textField.text {
+                        UtilsData.shared.modelForms[0].strName = str
+                    }
+
                 }
             }
             .onRowValidationChanged { cell, row in
@@ -73,7 +76,7 @@ class ViewControllerForm: FormViewController {
                     print("NotERROR")
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-                    vc.strName = self.model.strName
+                    vc.strName = UtilsData.shared.modelForms[0].strName
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
