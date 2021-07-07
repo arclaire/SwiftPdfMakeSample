@@ -712,9 +712,227 @@ function tableBodyPage4(){
     return body;
 }
 
-function createContent() {
-    const content =  [
-            {
+function tableBodyPage5(){
+  var arr=[];
+  var body =
+  [
+      [
+          {
+              text: 'End of \nPolicy \nYear / Age',
+              rowSpan: 3 ,
+              style:"headerTable1",
+
+          },
+          {
+              text: 'Total Basic \nPremiums \nPaid To-date ($)',
+              rowSpan: 3 ,
+              style:"headerTable1",
+
+          },
+          {
+              text: 'DEDUCTIONS',
+              colSpan: 6,
+              style:"headerTable2"
+
+          },
+          '',
+          '',
+          '',
+          '',
+          '',
+    ],
+    [
+        '',
+        '',
+        {
+            text: 'Illustrated at 4.00% Investment Return',
+            style:"headerTable3",
+            colSpan: 3,
+
+        },
+        '',
+        '',
+        {
+            text: 'Illustrated at 8.00% Investment Return',
+            style:"headerTable3",
+            colSpan: 3,
+
+        },
+        '',
+        '',
+
+    ],
+    [
+        '',
+        '',
+        {
+            text: 'Value of Basic\nPremiums Paid\nTo-date ($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Effect of Deductions\nTo-date($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Total Surrender\nValue ($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Value of Basic\nPremiums Paid\nTo-date ($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Effect of Deductions\nTo-date($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Total Surrender\nValue ($)',
+            style:"headerTable4"
+        },
+
+    ],
+]
+
+    var totalCell = 0;
+    var age = parseInt(dataHeader.age);
+    if (dataHeader.ageOwner != '-') {
+        age = parseInt(dataHeader.ageOwner);
+    }
+    totalRow = (100 - age)
+    totalCell = totalRow * totalRow
+    var premi = parseInt(dataPlan[0].value4)
+
+    age = age + 1;
+
+    for(var j = 0;j < totalRow; j++){
+        var premi2 = premi
+        var premi3 = premi / 5 - 200
+        var premi4 = premi / 5 + 200
+        if (j < 2) {
+            premi3 = 0;
+            premi4 = 0
+        }
+        var strYearAge = ( j + 1) + '/' + (age + j);
+        if (j + 1 == 2 || j + 1 == 7) {
+            strYearAge = ( j + 1) + '/@' + (age + j);
+        }
+        body.push(
+            [
+                {
+                    text: strYearAge,
+                    alignment: 'right'
+                },
+                {
+                    text: new Intl.NumberFormat().format(premi),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi2 + (j + 1) * 120 )),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi2 + (j + 1) * 120 + 200)),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi3)),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi2 + (j + 1) * 120 * 2)),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi2 + (j + 1) * 120 + 200 * 2)),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi4)),
+                    alignment: 'right'
+                },
+            ]
+        );
+
+        premi = premi + 3000;
+
+    }
+    return body;
+}
+
+function tableBodyPage6(){
+  var arr=[];
+  var body =
+  [
+      [
+          {
+              text: 'TOTAL DISTRIBUTION COST',
+              colSpan: 3,
+              style:"headerTable2"
+          },
+          '',
+          '',
+    ],
+    [
+        {
+            text: 'End of Policy\nYear / Age',
+            style:"headerTable4"
+        },
+        {
+            text: 'Total Basic Premiums\nPaid To-date ($))',
+            style:"headerTable4"
+        },
+        {
+            text: 'Total Distribution\nCost To-date ($)',
+            style:"headerTable4"
+        },
+    ],
+]
+
+    var totalCell = 0;
+    var age = parseInt(dataHeader.age);
+    if (dataHeader.ageOwner != '-') {
+        age = parseInt(dataHeader.ageOwner);
+    }
+    totalRow = (100 - age)
+    totalCell = totalRow * totalRow
+    var premi = parseInt(dataPlan[0].value4)
+
+    age = age + 1;
+
+    for(var j = 0;j < totalRow; j++){
+        var premi2 = premi
+        var premi3 = premi / 2
+
+        var strYearAge = ( j + 1) + '/' + (age + j);
+        if (j + 1 == 2 || j + 1 == 7) {
+            strYearAge = ( j + 1) + '/@' + (age + j);
+        }
+        body.push(
+            [
+                {
+                    text: strYearAge,
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi2)),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi3)),
+                    alignment: 'right'
+                },
+            ]
+        );
+
+        premi = premi + 3000;
+
+    }
+    return body;
+}
+
+function createPage1() {
+    const page1 = [
+        {
                 text: 'PLAN SUMMARY',
                 style: 'headings1',
                 margin: [0,0,0,0],
@@ -845,6 +1063,12 @@ function createContent() {
                 pageBreak:'after'
 
             },
+    ];
+    return page1
+}
+
+function createPage2() {
+    var page2 = [
             {
                style: 'contentItemBold',
                margin: [15,-20,15,0],
@@ -857,13 +1081,19 @@ function createContent() {
                margin: [15,0,15,0],
                text: 'This Policy Illustration is valid in Singapore and any other jurisdiction where it is not prohibited.\n\nAIA Singapore Private Limited (AIA Singapore) believes that it is important that you fully appreciate the benefits of your policy. You should also understand how the cost of your insurance cover and the expenses of administration and sales affect the benefits that you will receive.\n\nThe illustration that follows shows how the value of your policy progresses over time and the sum(s) that would be payable. The methods used to derive the values shown follow guidelines established by the Life Insurance Association, Singapore, to ensure that a fair and consistent approach is used in preparing this illustration.\n\nAs buying a life insurance policy is a long-term commitment, an early termination of the policy usually involves high costs and the surrender value, if any, that is payable to you may be zero or less than the total premiums paid. While this policy provides for some flexibility in premium payment, prior to purchasing this policy, you should ensure that you have the ability to finance this policy for the entire term in order to maximise its benefits.\n\nYour insurance policy will terminate if there are insufficient fund units to pay for policy charges (unless Non Lapse Privilege feature applies). Your fund units could be insufficient over the years due to factors such as: poor investment return; frequent or large partial withdrawal; stop paying your regular premiums.\n\nIf you need clarification, please do not hesitate to ask your AIA Financial Services Consultant / Insurance Representative.\n\nThis Policy Illustration applies to standard lives unless the Insured is rated substandard as determined by AIA Singapore.'
             },
+    ];
+    return page2
+}
+
+function createPage3() {
+    var page3 = [
             {
                 text: 'POLICY ILLUSTRATION',
                 style: 'headings1',
                 margin: [0,-20,0,0],
             },
             {
-                margin: [0,5,0,0],
+                margin: [0,5,0,5],
                 alignment: 'center',
 
                 style: 'contentTableChart',
@@ -878,8 +1108,14 @@ function createContent() {
                 pageBreak:'after'
 
             },
+    ];
+    return page3
+}
+
+function createPage4() {
+    var page4 = [
             {
-                margin: [0,-20,0,0],
+                margin: [0,-20,0,5],
                 alignment: 'center',
 
                 style: 'contentTableChart',
@@ -891,7 +1127,7 @@ function createContent() {
             },
             {
                 margin: [0,20,0,0],
-                style: 'content1',
+                style: 'contentItemBold',
                 text: 'What is the significance of the Illustrated Investment Rate of Return?',
                 decoration: 'underline',
             },
@@ -911,11 +1147,131 @@ function createContent() {
                 style: 'contentItemBold',
                 text: 'Please note that if you select a money market fund or a fixed income fund, then returns of 4.0% to 8.0% could be considered high in many cases and unlikely to be achieved if the current low interest rate environment persists. You are strongly encouraged to speak to your AIA Financial Services Consultant/ Insurance Representative who would be able to provide further information on these funds - both for your initial fund selection and subsequently.',
             },
+    ];
 
-        ];
-
-        return content
+    return page4
 }
+
+function createPage5() {
+    var page5 = [
+            {
+                margin: [0,-20,0,0],
+                style: 'contentItemBold',
+                text: 'What is the impact of deductions on what you might get back?',
+                decoration: 'underline',
+            },
+            {
+                margin: [0,4,0,0],
+                style: 'content1',
+                text: 'The following table illustrates the effect that deductions will have on the amount you get back on surrender or maturity. It also highlights the cost of surrendering the policy early.'
+            },
+            {
+                text: 'TABLE OF DEDUCTIONS',
+                style: 'headings1',
+                margin: [0,8,0,5],
+            },
+            {
+                margin:[-8,0,0,0],
+                alignment: 'center',
+                style: 'contentTableChart',
+                table: {
+                    headerRows: 3,
+                    widths: ['10%', '11%', '14%', '17%', '9%', '14%' ,'17%','9%'],
+                    body: tableBodyPage5(),
+                }
+            },
+            {
+                margin: [0,15,0,0],
+                style: 'contentItemBold',
+                text: 'What do the columns in the Table of Deductions mean?',
+                decoration: 'underline',
+            },
+            {
+                margin: [0,4,0,0],
+                style: 'content1',
+                text: '1. “Value of Basic Premiums Paid To-date” is obtained by accumulating the premiums paid to date at the Illustrated Investment Rate of Return, assuming the premiums paid can be invested without deduction for the cost of insurance and without any expenses.',
+
+            },
+            {
+                margin: [0,15,0,0],
+                style: 'content1',
+                text: '2. The difference between the “Value of Basic Premiums Paid To-date” and “Total Surrender Value” represents the “Effect of Deductions To-date”. This is the accumulated value of the deductions for the cost of insurance, distribution cost, expenses, surrender charge, expected tax payments, and expected transfers to shareholders (for participating policies).',
+            },
+            {
+                text: ' ',
+                pageBreak:'after'
+
+            },
+
+    ];
+    return page5
+}
+
+function createPage6() {
+    var page6 = [
+            {
+                margin: [0,-20,0,0],
+                style: 'contentItemBold',
+                text: 'How much are you paying for distribution costs?',
+                decoration: 'underline',
+            },
+            {
+                margin: [0,4,0,0],
+                style: 'content1',
+                text: 'This table shows the total costs of distribution that AIA Singapore expects to incur in relation to your policy, including the cost of any financial advice provided to you.'
+            },
+            {
+                margin:[0,10,10,0],
+                table: {
+                headerRows: 2,
+                widths: ['20%', '25%', '20%'],
+                body: tableBodyPage6(),
+                }
+            },
+            {
+                margin: [0,15,0,0],
+                style: 'contentItemBold',
+                text: 'What does the last column represent?',
+                decoration: 'underline',
+            },
+            {
+                margin: [0,4,0,0],
+                style: 'content1',
+                text: '1. The Total Distribution Cost To-date is the sum of each year\'s expected distribution-related costs, without interest. Such costs include cash payments in the form of commission, costs of benefits and services paid to the distribution channel.',
+            },
+            {
+                margin: [0,15,0,0],
+                style: 'content1',
+                text: '2. Please note that the Total Distribution Cost is not an additional cost to you; it has already been allowed for in calculating your premium.',
+
+            },
+            {
+                margin: [0,15,0,0],
+                style: 'content1',
+                text: '3. You can obtain the Total Distribution Cost of each of the supplementary benefits (if applicable) from your Financial Adviser or AIA Financial Services Consultant / Insurance Representative.',
+
+            },
+            {
+                margin: [0,15,0,0],
+                style: 'content1',
+                text: 'Note: You may request to pay additional top-up premium provided all premiums are paid when they fall due. For each Top-Up, the Total Distribution Cost that AIA Singapore expects to incur in relation to your policy is 5.95% of the Top-Up Premium.',
+
+            },
+    ];
+    return page6
+}
+
+function createContent() {
+    var content =  [];
+    content.push(createPage1());
+    content.push(createPage2());
+    content.push(createPage3());
+    content.push(createPage4());
+    content.push(createPage5());
+    content.push(createPage6());
+    return content
+}
+
 function getBodyHeaderTable() {
     const body = [
         [

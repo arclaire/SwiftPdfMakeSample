@@ -158,8 +158,8 @@ extension ViewController: WKScriptMessageHandler {
             present(alertController, animated: true, completion: nil)
         case "logHandler":
             print("LOG: \(message.body)")
-            let src = "<embed type=\"application/pdf\" width= 1000 src=\"\((message.body))\"/>"
-            webView.loadHTMLString(src, baseURL: nil)
+            // let src = "<embed type=\"application/pdf\" width= 1000 src=\"\((message.body))\"/>"
+            // webView.loadHTMLString(src, baseURL: nil)
             if let resultString = message.body as? String {
                 self.saveBase64StringToPDF(resultString)
             }
@@ -193,6 +193,9 @@ extension ViewController: WKScriptMessageHandler {
         // file was saved from the simulator on your machine
         // just print the documentsURL and go there in Finder
         print("URLDOC", documentsURL)
+        // let fileURL = URL(fileURLWithPath: filePathURLData as! String)
+        // print(fileURL)
+        webView.loadFileURL(documentsURL, allowingReadAccessTo: documentsURL)
     }
 
 }
