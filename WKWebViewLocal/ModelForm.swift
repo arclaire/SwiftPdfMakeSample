@@ -66,7 +66,8 @@ struct ModelPlan: Codable {
     var strClassification: String
     var strAmount1: String
     var strAmount2: String
-    var strTermYears: String
+    var strYear1: String
+    var strYear2: String
     var strValue1: String
     var strValue2: String
     var strValue3: String
@@ -76,9 +77,10 @@ struct ModelPlan: Codable {
         case strName = "name"
         case strCode = "code"
         case strClassification = "classification"
+        case strYear1 = "year1"
+        case strYear2 = "year2"
         case strAmount2 = "amount2"
         case strAmount1 = "amount1"
-        case strTermYears = "termYears"
         case strValue1 = "value1"
         case strValue2 = "value2"
         case strValue3 = "value3"

@@ -1,0 +1,30 @@
+[
+    {
+        "age":"40",
+        "name":"James",
+        "gender":"Male",
+        "ageOwner":"-",
+        "nameOwner":"-",
+        "genderOwner":"-",
+        "backDate":"-",
+        "frequency":"A - Annual",
+        "country":"Singapore",
+        "currency":"SGD",
+        "smoker":"N",
+        "occupation":"Programmer",
+    },
+    {
+        "age":"42",
+        "name":"Lea",
+        "gender":"Female",
+        "ageOwner":"-",
+        "nameOwner":"-",
+        "genderOwner":"-",
+        "backDate":"-",
+        "frequency":"M - Monthly",
+        "country":"Singapore",
+        "currency":"SGD",
+        "smoker":"Y",
+        "occupation":"Landlord",
+    }
+]

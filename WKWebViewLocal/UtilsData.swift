@@ -11,6 +11,7 @@ import Foundation
 class UtilsData: NSObject {
     static let shared = UtilsData()
     var modelForms: [ModelForm] = []
+    var modelPlans: [ModelPlan] = []
     var currentIndex = 0
     var fm = FileManager.default
     var fresult: Bool = false
@@ -38,6 +39,16 @@ class UtilsData: NSObject {
         }
     }
 
+    func getDataPlan() {
+        do {
+            let documentDirectory = try fm.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            subUrlPlan = documentDirectory.appendingPathComponent("plan.json")
+            loadFilePlan(mainPath: mainUrlPlan!, subPath: subUrlPlan!)
+        } catch {
+            print(error)
+        }
+    }
+
     func loadFileForm(mainPath: URL, subPath: URL) {
         if fm.fileExists(atPath: subPath.path) {
             decodeDataForm(pathName: subPath)
@@ -52,12 +63,37 @@ class UtilsData: NSObject {
 
     }
 
+    func loadFilePlan(mainPath: URL, subPath: URL) {
+        if fm.fileExists(atPath: subPath.path) {
+            decodeDataForm(pathName: subPath)
+
+            if modelPlans.isEmpty {
+                decodeDataPlan(pathName: mainPath)
+            }
+
+        } else {
+            decodeDataPlan(pathName: mainPath)
+        }
+
+    }
+
+    func decodeDataPlan(pathName: URL) {
+        do {
+            let jsonData = try Data(contentsOf: pathName)
+            let decoder = JSONDecoder()
+            modelPlans = try decoder.decode([ModelPlan].self, from: jsonData)
+            print("DATA Plan", modelPlans[0])
+
+        } catch {
+            print(error)
+        }
+    }
     func decodeDataForm(pathName: URL) {
         do {
             let jsonData = try Data(contentsOf: pathName)
             let decoder = JSONDecoder()
             modelForms = try decoder.decode([ModelForm].self, from: jsonData)
-            print("DATA", modelForms[0].strName)
+            print("DATA Form", modelForms[0].strName)
 
         } catch {
             print(error)

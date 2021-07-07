@@ -15,29 +15,61 @@ var dataHeader = {
   "nameOwner" : "-"
 };
 
+var dataPlan = [
+    {
+        "name":"AIA Pro Achiever I",
+        "code":"RFWL",
+        "classification":"Medium to High Risk",
+        "amount2":"Refer to Death Benefit",
+        "amount1":"3000",
+        "year1": "32",
+        "year2": "32",
+        "value1":"250",
+        "value2":"750",
+        "value3":"1250",
+        "value4":"3000"
+    },
+    {
+        "name":"AIA Pro Achiever II",
+        "code":"RFWI",
+        "classification":"Medium to High Risk",
+        "amount2":"Refer to Death Benefit",
+        "amount1":"4000",
+        "year1": "34",
+        "year2": "34",
+        "value1":"350",
+        "value2":"850",
+        "value3":"2500",
+        "value4":"4000"
+    }
 
+];
 function prepareData(data) {
     dataHeader = data;
     console.log('LOGNAME' + data.name + dataHeader.frequency);
 }
 
-function drawLine() {
+function drawLine(marginLeft, marginRight) {
+    var widths = 570;
+    if (marginLeft == 0) {
+        widths = 560;
+    }
     const line = {
         canvas: [
                    {
                            type: 'line',
                            x1: 0,
-                           y1: 10,
-                           x2: 570,
-                           y2: 10,
+                           y1: 4,
+                           x2: widths,
+                           y2: 4,
                            lineWidth: 1,
                            alignment: 'center',
-                           margin: [15,0,15,0],
+                           margin: [marginLeft,0,marginRight,0],
 
                    }
                    ],
         alignment: 'center',
-        margin: [15,0,15,0],
+        margin: [marginLeft,0,marginLeft,0],
 
 
     };
@@ -170,7 +202,7 @@ function getBodyHeaderTable() {
 function getFooter(currentPage, pageCount){
     var footer =
     [
-        drawLine(),
+        drawLine(15,15),
         {
            style: 'footer',
            text:'AIA Singapore Private Limited (Reg. No. 201106386R)',
@@ -247,7 +279,7 @@ function getHeaderMain() {
                     body: getBodyHeaderTable()
                 }
           },
-          drawLine()
+          drawLine(15,15)
 
     ]
     return layout
@@ -306,11 +338,705 @@ function getHeaderSub(){
                 }
 
           },
-          drawLine()
+          drawLine(15,15)
 
     ];
 
     return header
+}
+
+function getBodyTable1(){
+      var body = [];
+
+    for (var item in dataPlan) {
+        var data = [];
+        console.log(item)
+        var row1 = {
+            text: dataPlan[item].code, style: 'contentItemBold', alignment: 'left'
+
+        };
+        data.push(row1);
+
+        var row2 = {
+             text: dataPlan[item].name, style: 'contentItemBold', alignment: 'left'
+        };
+        data.push(row2);
+
+        var row3 = {
+             text: dataPlan[item].amount1, style: 'content2', alignment: 'center'
+
+        };
+        data.push(row3)
+
+        var row4 = {
+             text: dataPlan[item].year1, style: 'content2', alignment: 'center'
+
+        };
+        data.push(row4)
+
+        var row5 = {
+             text: dataPlan[item].amount2, style: 'content2', alignment: 'right'
+
+        };
+        data.push(row5)
+
+        var row6 = {
+             text: dataPlan[item].year2, style: 'content2', alignment: 'center'
+        };
+        data.push(row6)
+
+        body.push(data);
+
+
+    }
+    return body
+}
+
+function getBodyTable1_1(){
+      var body = [];
+
+    for (var item in dataPlan) {
+        var data = [];
+        console.log(item)
+        var row1 = {
+            text:'Basic Premium', alignment: 'left'
+
+        };
+        data.push(row1);
+
+        var row2 = {
+             text: dataPlan[item].value4, style: 'content2', alignment: 'center'
+        };
+        data.push(row2);
+
+        var row3 = {
+             text: dataPlan[item].value3, style: 'content2', alignment: 'center'
+
+        };
+        data.push(row3)
+
+        var row4 = {
+             text: dataPlan[item].value2, style: 'content2', alignment: 'center'
+
+        };
+        data.push(row4)
+
+        var row5 = {
+             text: dataPlan[item].value1, style: 'content2', alignment: 'center'
+
+        };
+        data.push(row5)
+
+        body.push(data);
+
+
+    }
+    return body
+}
+
+function tableBodyPage3(){
+  var arr=[];
+  var body =
+  [
+      [
+          {
+              text: 'End of \nPolicy \nYear / Age',
+              rowSpan: 3 ,
+              style:"headerTable1",
+
+          },
+          {
+              text: 'Total Basic \nPremiums \nPaid To-date ($)',
+              rowSpan: 3 ,
+              style:"headerTable1",
+
+          },
+          {
+              text: ' Death Benefit',
+              colSpan: 5,
+              style:"headerTable2"
+
+          },
+          '',
+          '',
+          '',
+          '',
+    ],
+    [
+        '',
+        '',
+        {
+            text: 'Guaranteed \n($)',
+            rowSpan: 2,
+            colSpan: 1,
+            style:"headerTable1"
+
+        },
+        {
+            text: 'Illustrated at \n4.00% Investment Return',
+            style:"headerTable3",
+            colSpan: 2,
+
+        },
+        '',
+        {
+            text: 'Illustrated at \n8.00% Investment Return',
+            style:"headerTable3",
+            colSpan: 2,
+
+        },
+        '',
+
+    ],
+    [
+        '',
+        '',
+        '',
+        {
+            text: 'Non-guaranteed($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Total($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Non-guaranteed($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Total($)',
+            style:"headerTable4"
+        },
+
+    ],
+]
+
+    var totalCell = 0;
+    var age = parseInt(dataHeader.age);
+    if (dataHeader.ageOwner != '-') {
+        age = parseInt(dataHeader.ageOwner);
+    }
+    totalRow = (100 - age)
+    totalCell = totalRow * totalRow
+    var premi = parseInt(dataPlan[0].value4)
+
+    age = age + 1;
+
+    for(var j = 0;j < totalRow; j++){
+        var premi2 = premi / 2
+        var premi3 = premi / 2 + 200
+        if (j < 3) {
+            premi2 = 0;
+
+        }
+        var strYearAge = ( j + 1) + '/' + (age + j);
+        if (j + 1 == 2 || j + 1 == 7) {
+            strYearAge = ( j + 1) + '/@' + (age + j);
+        }
+        body.push(
+            [
+                {
+                    text: strYearAge,
+                    alignment: 'right'
+                },
+                {
+                    text: new Intl.NumberFormat().format(premi),
+                    alignment: 'right'
+                },
+                {
+                    text: new Intl.NumberFormat().format(premi),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi2 / 5 )),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi3 + 500)),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi3)),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi3 + 700)),
+                    alignment: 'right'
+                },
+            ]
+        );
+
+        premi = premi + 3000;
+
+    }
+    return body;
+}
+
+function tableBodyPage4(){
+  var arr=[];
+  var body =
+  [
+      [
+          {
+              text: 'End of \nPolicy \nYear / Age',
+              rowSpan: 3 ,
+              style:"headerTable1",
+
+          },
+          {
+              text: 'Total Basic \nPremiums \nPaid To-date ($)',
+              rowSpan: 3 ,
+              style:"headerTable1",
+
+          },
+          {
+              text: 'Surrender Value',
+              colSpan: 5,
+              style:"headerTable2"
+
+          },
+          '',
+          '',
+          '',
+          '',
+    ],
+    [
+        '',
+        '',
+        {
+            text: 'Guaranteed \n($)',
+            rowSpan: 2,
+            colSpan: 1,
+            style:"headerTable1"
+
+        },
+        {
+            text: 'Illustrated at \n4.00% Investment Return',
+            style:"headerTable3",
+            colSpan: 2,
+
+        },
+        '',
+        {
+            text: 'Illustrated at \n8.00% Investment Return',
+            style:"headerTable3",
+            colSpan: 2,
+
+        },
+        '',
+
+    ],
+    [
+        '',
+        '',
+        '',
+        {
+            text: 'Non-guaranteed($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Total($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Non-guaranteed($)',
+            style:"headerTable4"
+        },
+        {
+            text: 'Total($)',
+            style:"headerTable4"
+        },
+
+    ],
+]
+
+    var totalCell = 0;
+    var age = parseInt(dataHeader.age);
+    if (dataHeader.ageOwner != '-') {
+        age = parseInt(dataHeader.ageOwner);
+    }
+    totalRow = (100 - age)
+    totalCell = totalRow * totalRow
+    var premi = parseInt(dataPlan[0].value4)
+
+    age = age + 1;
+
+    for(var j = 0;j < totalRow; j++){
+        var premi2 = premi
+        var premi3 = premi / 5 + 200
+        if (j < 2) {
+            premi2 = 0;
+            premi3 = 0;
+        }
+        var strYearAge = ( j + 1) + '/' + (age + j);
+        if (j + 1 == 2 || j + 1 == 7) {
+            strYearAge = ( j + 1) + '/@' + (age + j);
+        }
+        body.push(
+            [
+                {
+                    text: strYearAge,
+                    alignment: 'right'
+                },
+                {
+                    text: new Intl.NumberFormat().format(premi),
+                    alignment: 'right'
+                },
+                {
+                    text: 0,
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi2 / 5 )),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi2 / 5 )),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi3)),
+                    alignment: 'right'
+                },
+                {
+                    text:(new Intl.NumberFormat().format(premi3)),
+                    alignment: 'right'
+                },
+            ]
+        );
+
+        premi = premi + 3000;
+
+    }
+    return body;
+}
+
+function createContent() {
+    const content =  [
+            {
+                text: 'PLAN SUMMARY',
+                style: 'headings1',
+                margin: [0,0,0,0],
+            },
+            {
+                margin: [0,15,0,0],
+                alignment: 'left',
+                layout: 'noBorders',
+                style: 'headings1',
+                table: {
+                    widths: ['50%', '25%', '25%'],
+                    body: [
+
+                            ['', 'Premium', 'Coverage'],
+
+                          ],
+                }
+            },
+            {
+                margin: [0,20,0,0],
+                alignment: 'center',
+                layout: 'noBorders',
+                style: 'headings1',
+                table: {
+                    widths: ['50%', '15%', '10%', '15%', '10%'],
+                    body: [
+
+                            [
+                                {text: 'Plan/Rider', alignment: 'left'},
+                                'Amount ($)',
+                                'Term\n(years)',
+                                'Amount ($)',
+                                'Term\n(years)'],
+
+                          ],
+                }
+            },
+            drawLine(0,0),
+            {
+                margin: [0,5,0,0],
+                alignment: 'left',
+                layout: 'noBorders',
+                style: 'content3',
+                table: {
+                    widths: ['50%', '15%', '10%', '15%', '10%'],
+                    body: [
+
+                            ['Plan', ' ', ' ',' ', ' '],
+
+                          ],
+                }
+            },
+            {
+                margin: [0,5,0,0],
+                alignment: 'center',
+                layout: 'noBorders',
+                style: 'content2',
+                table: {
+                    widths: ['10%', '40%','15%', '10%', '13%', '12%'],
+                    body: getBodyTable1(),
+                }
+            },
+            drawLine(0,0),
+            {
+                margin: [0,10,0,0],
+                alignment: 'center',
+                layout: 'noBorders',
+                style: 'content2',
+                table: {
+                    widths: ['40%','15%', '15%', '15%', '15%'],
+                    body: [
+
+                            [' ', 'Annually ','Semi-Annually', 'Quarterly', 'Monthly'],
+
+                          ],
+                }
+            },
+            {
+                margin: [0,10,0,0],
+                alignment: 'center',
+                layout: 'noBorders',
+                style: 'content2',
+                table: {
+                    widths: ['40%','15%', '15%', '15%', '15%'],
+                    body: getBodyTable1_1(),
+                }
+            },
+            {
+                text: 'Fund Allocation',
+                style: 'headernote',
+                margin: [0,20,0,0],
+
+            },
+            {
+                    layout: 'noBorders',
+                    margin: [0,15,0,0],
+                    table: {
+                    body:
+                    [
+                        [{text: 'Pro Balanced', style: 'contentItemBold'}, ' ', ],
+                        ['AIA Global Property Returns Fund', '5%'],
+                        ['AIA Regional Equity Fund', '15%'],
+                        ['AIA Regional Fixed Income Fund', '45%'],
+                        ['AIA Global Equity Fund', '20%'],
+                        ['AIA Greater China Equity Fund', '5%'],
+                        ['AIA Emerging Markets Equity Fund', '10%'],
+                    ]
+
+
+                    }
+            },
+            {
+                    layout: 'noBorders',
+                    margin: [0,15,0,0],
+                    table: {
+                    body:
+                    [
+                        [
+                            {text: 'Portfolio Classification:', style: 'contentItemBold'},
+                            {text: 'Medium to High Risk', style: 'content1'}
+                          ],
+
+                    ]
+                    }
+            },
+            {
+                text: ' ',
+                pageBreak:'after'
+
+            },
+            {
+               style: 'contentItemBold',
+               margin: [15,-20,15,0],
+               text: 'Introduction',
+
+            },
+            {
+               pageBreak:'after',
+               style: 'content1',
+               margin: [15,0,15,0],
+               text: 'This Policy Illustration is valid in Singapore and any other jurisdiction where it is not prohibited.\n\nAIA Singapore Private Limited (AIA Singapore) believes that it is important that you fully appreciate the benefits of your policy. You should also understand how the cost of your insurance cover and the expenses of administration and sales affect the benefits that you will receive.\n\nThe illustration that follows shows how the value of your policy progresses over time and the sum(s) that would be payable. The methods used to derive the values shown follow guidelines established by the Life Insurance Association, Singapore, to ensure that a fair and consistent approach is used in preparing this illustration.\n\nAs buying a life insurance policy is a long-term commitment, an early termination of the policy usually involves high costs and the surrender value, if any, that is payable to you may be zero or less than the total premiums paid. While this policy provides for some flexibility in premium payment, prior to purchasing this policy, you should ensure that you have the ability to finance this policy for the entire term in order to maximise its benefits.\n\nYour insurance policy will terminate if there are insufficient fund units to pay for policy charges (unless Non Lapse Privilege feature applies). Your fund units could be insufficient over the years due to factors such as: poor investment return; frequent or large partial withdrawal; stop paying your regular premiums.\n\nIf you need clarification, please do not hesitate to ask your AIA Financial Services Consultant / Insurance Representative.\n\nThis Policy Illustration applies to standard lives unless the Insured is rated substandard as determined by AIA Singapore.'
+            },
+            {
+                text: 'POLICY ILLUSTRATION',
+                style: 'headings1',
+                margin: [0,-20,0,0],
+            },
+            {
+                margin: [0,5,0,0],
+                alignment: 'center',
+
+                style: 'contentTableChart',
+                table: {
+                    headerRows: 3,
+                    widths: ['10%', '14%', '12%', '15%', '16%', '15%' ,'16%'],
+                    body: tableBodyPage3(),
+                }
+            },
+            {
+                text: ' ',
+                pageBreak:'after'
+
+            },
+            {
+                margin: [0,-20,0,0],
+                alignment: 'center',
+
+                style: 'contentTableChart',
+                table: {
+                    headerRows: 3,
+                    widths: ['12%', '15%', '12%', '17%', '13%', '17%' ,'13%'],
+                    body: tableBodyPage4(),
+                }
+            },
+            {
+                margin: [0,20,0,0],
+                style: 'content1',
+                text: 'What is the significance of the Illustrated Investment Rate of Return?',
+                decoration: 'underline',
+            },
+            {
+                margin: [0,4,0,0],
+                style: 'content1',
+                text: 'The illustrations are based on illustrated investment returns of 4% p.a. and 8% p.a. The two rates of return used are before deducting the annual management charges of the funds. They are purely illustrative and do not represent upper and lower limits on the investment performance. They also do not reflect potential volatility over the short-term resulting in potential sharp movements, up or down, of the underlying assets of the funds. The actual benefits payable will depend on the actual performance of the underlying assets of the funds. The performance of the funds is not guaranteed and the cash value may be less than the capital invested.',
+            },
+            {
+                margin: [0,12,0,0],
+                style: 'content1',
+                text: 'Figures shown in this Policy Illustration assume that no withdrawal of funds have been made during the term of this policy.',
+            },
+            {
+                margin: [0,12,0,0],
+                pageBreak:'after',
+                style: 'contentItemBold',
+                text: 'Please note that if you select a money market fund or a fixed income fund, then returns of 4.0% to 8.0% could be considered high in many cases and unlikely to be achieved if the current low interest rate environment persists. You are strongly encouraged to speak to your AIA Financial Services Consultant/ Insurance Representative who would be able to provide further information on these funds - both for your initial fund selection and subsequently.',
+            },
+
+        ];
+
+        return content
+}
+function getBodyHeaderTable() {
+    const body = [
+        [
+            {
+                text:'Life Insured',
+                style: 'content1'
+
+            },
+            ':',
+             {
+                text: dataHeader.name,
+                style:'contentItemBold'
+
+            },
+            {
+                text:'Insured\'s Age Last Birthday (ALB) / Gender',
+                style: 'content1'
+
+            },
+            ':',
+            {
+                text:  dataHeader.age + ' / ' + dataHeader.gender,
+                style:'contentItemBold'
+
+            }
+        ],
+        [
+            ' ',
+            ' ',
+            ' ',
+            {
+                text:'Smoker',
+                style:'content1'
+            },
+            ':',
+            {
+                text: dataHeader.smoker,
+                style:'contentItemBold'
+
+            }
+
+        ],
+        [
+            {
+                text:'Insured\'s Occupation',
+                style:'content1'
+            },
+            ':',
+            {
+                text: dataHeader.occupation,
+                style:'contentItemBold'
+            },
+            '',
+            '',
+            ''
+        ],
+        [
+            {
+                text: 'Applicant / Owner',
+                style:'content1'
+            },
+            ':',
+            {
+                text: dataHeader.nameOwner,
+                style:'contentItemBold'
+            },
+            {
+                text: 'Applicant\'s / Owner\'s Age (ALB) / Gender',
+                style:'content1'
+            },
+            ':',
+            {
+                text: dataHeader.ageOwner + ' / ' + dataHeader.genderOwner,
+                style:'contentItemBold'
+            },
+        ],
+        [
+            {
+                text:'Currency',
+                style:'content1'
+            },
+            ':',
+            {
+                text: dataHeader.currency,
+                style:'contentItemBold'
+            },
+            {
+                text:'Premium Frequency',
+                style:'content1'
+            },
+            ':',
+            {
+                text: dataHeader.frequency,
+                style:'contentItemBold'
+            }
+        ],
+        [
+            {
+                text:'Country of Residence',
+                style:'content1'
+            },
+            ':',
+            {
+                text: dataHeader.country,
+                style:'contentItemBold'
+            },
+            {
+                text:'Backdate',
+                style:'content1'
+
+            },
+            ':',
+            {
+                text: dataHeader.backDate,
+                style:'contentItemBold'
+            }
+         ],
+
+    ];
+
+    return body
 }
 
 function getBase64Image1(img) {
@@ -365,249 +1091,77 @@ function getPdf(){
     footer: function(currentPage, pageCount) {
             return getFooter(currentPage, pageCount);
     },
-    content:
-         [
-                {
-                    text: 'PLAN SUMMARY',
-                    style: 'headings1',
-                    margin: [0,0,0,0],
-                },
-                {
-                    margin: [0,15,0,0],
-                    alignment: 'left',
-                    layout: 'noBorders',
-                    style: 'headings1',
-                    table: {
-                        widths: ['50%', '25%', '25%'],
-                        body: [
+    content: createContent(),
 
-                                ['', 'Premium', 'Coverage'],
-
-                              ],
-                    }
-                },
-                {
-                    margin: [0,20,0,0],
-                    alignment: 'center',
-                    layout: 'noBorders',
-                    style: 'headings1',
-                    table: {
-                        widths: ['50%', '15%', '10%', '15%', '10%'],
-                        body: [
-
-                                [
-                                    {text: 'Plan/Rider', alignment: 'left'},
-                                    'Amount ($)',
-                                    'Term\n(years)',
-                                    'Amount ($)',
-                                    'Term\n(years)'],
-
-                              ],
-                    }
-                },
-                {
-                    canvas: [
-                       {
-                               type: 'line',
-                               x1: 0,
-                               y1: 10,
-                               x2: 570,
-                               y2: 10,
-                               lineWidth: 1,
-                               alignment: 'center',
-                               margin: [15,0,15,0],
-
-                       }
-                       ],
-                    alignment: 'center',
-
-
-                },
-                {
-                    margin: [0,5,0,0],
-                    alignment: 'left',
-                    layout: 'noBorders',
-                    style: 'content3',
-                    table: {
-                        widths: ['50%', '15%', '10%', '15%', '10%'],
-                        body: [
-
-                                ['Plan', ' ', ' ',' ', ' '],
-
-                              ],
-                    }
-                },
-                {
-                    margin: [0,5,0,0],
-                    alignment: 'center',
-                    layout: 'noBorders',
-                    style: 'content2',
-                    table: {
-                        widths: ['10%', '40%','15%', '10%', '13%', '12%'],
-                        body: [
-
-                                [
-                                    {text: 'RFW', style: 'contentItemBold', alignment: 'left'},
-                                    {text: 'AIA Pro Achiever', style: 'contentItemBold', alignment: 'left'},
-                                     '3,000.00 ',
-                                     '32',
-                                    {text: 'Refer to Death Benefit', alignment: 'right'},
-                                    '32'
-                                ],
-
-                              ],
-                    }
-                },
-                {
-                    canvas: [
-                       {
-                               type: 'line',
-                               x1: 0,
-                               y1: 10,
-                               x2: 570,
-                               y2: 10,
-                               lineWidth: 1,
-                               alignment: 'center',
-                               margin: [15,0,15,0],
-
-                       }
-                       ],
-                    alignment: 'center',
-
-
-                },
-                {
-                    margin: [0,10,0,0],
-                    alignment: 'center',
-                    layout: 'noBorders',
-                    style: 'content2',
-                    table: {
-                        widths: ['40%','15%', '15%', '15%', '15%'],
-                        body: [
-
-                                [' ', 'Annually ','Semi-Annually', 'Quarterly', 'Monthly'],
-
-                              ],
-                    }
-                },
-                {
-                    margin: [0,10,0,0],
-                    alignment: 'center',
-                    layout: 'noBorders',
-                    style: 'content2',
-                    table: {
-                        widths: ['40%','15%', '15%', '15%', '15%'],
-                        body: [
-
-                                [{text:'Basic Premium', alignment: 'left'},
-                                '$3,000.00 ',
-                                '$1,500.00',
-                                '$750.00',
-                                '$250.00'],
-
-                              ],
-                    }
-                },
-                {
-                    text: 'Fund Allocation',
-                    style: 'headernote',
-                    margin: [0,20,0,0],
-
-                },
-                {
-                        layout: 'noBorders',
-                        margin: [0,15,0,0],
-                        table: {
-                        body:
-                        [
-                            [{text: 'Pro Balanced', style: 'contentItemBold'}, ' ', ],
-                            ['AIA Global Property Returns Fund', '5%'],
-                            ['AIA Regional Equity Fund', '15%'],
-                            ['AIA Regional Fixed Income Fund', '45%'],
-                            ['AIA Global Equity Fund', '20%'],
-                            ['AIA Greater China Equity Fund', '5%'],
-                            ['AIA Emerging Markets Equity Fund', '10%'],
-                        ]
-
-
-                        }
-                },
-                 {
-                        layout: 'noBorders',
-                        margin: [0,15,0,0],
-                        table: {
-                        body:
-                        [
-                            [{text: 'Portfolio Classification:', style: 'contentItemBold'}, 'Medium to High Risk', ],
-
-                        ]
-
-
-                        }
-                },
-                {
-                    text: ' ',
-                    pageBreak:'after'
-
-                },
-                {
-                   style: 'header',
-                   margin: [15,0,15,0],
-                   text: 'Introduction',
-
-                },
-                {
-                   pageBreak:'after',
-                   style: 'content1',
-                   margin: [15,0,15,0],
-                   text: 'This Policy Illustration is valid in Singapore and any other jurisdiction where it is not prohibited.\n\nAIA Singapore Private Limited (AIA Singapore) believes that it is important that you fully appreciate the benefits of your policy. You should also understand how the cost of your insurance cover and the expenses of administration and sales affect the benefits that you will receive.\n\nThe illustration that follows shows how the value of your policy progresses over time and the sum(s) that would be payable. The methods used to derive the values shown follow guidelines established by the Life Insurance Association, Singapore, to ensure that a fair and consistent approach is used in preparing this illustration.\n\nAs buying a life insurance policy is a long-term commitment, an early termination of the policy usually involves high costs and the surrender value, if any, that is payable to you may be zero or less than the total premiums paid. While this policy provides for some flexibility in premium payment, prior to purchasing this policy, you should ensure that you have the ability to finance this policy for the entire term in order to maximise its benefits.\n\nYour insurance policy will terminate if there are insufficient fund units to pay for policy charges (unless Non Lapse Privilege feature applies). Your fund units could be insufficient over the years due to factors such as: poor investment return; frequent or large partial withdrawal; stop paying your regular premiums.\n\nIf you need clarification, please do not hesitate to ask your AIA Financial Services Consultant / Insurance Representative.\n\nThis Policy Illustration applies to standard lives unless the Insured is rated substandard as determined by AIA Singapore.'
-                },
-
-            ],
     styles: {
-               header: {
-                   fontSize: 10,
-                   characterSpacing: 0,
+            header: {
+                fontSize: 10,
+                characterSpacing: 0,
+            },
+            headings1: {
+                fontSize: 10,
+                bold: true,
+                alignment: 'center',
+            },
+            content1: {
+                fontSize: 10,
+                bold: false,
 
-               },
-                headings1: {
-                   fontSize: 12,
-                   bold: true,
-                   alignment: 'center',
+            },
+            content2: {
+                fontSize: 10,
+            },
+            content3: {
+                fontSize: 10,
+                italics: true,
+            },
+            contentItemBold: {
+                fontSize: 10,
+                bold: true,
+            },
+            headernote: {
+                fontSize: 10,
+                italics: true
+            },
+            headerTable1: {
+                fontSize: 9,
+                bold: false,
+                color: 'black',
+                fillColor: 'white',
+                alignment: 'center'
 
-               },
-               content1: {
-                   fontSize: 10,
-                   bold: false,
-
-               },
-               content2: {
-                   fontSize: 11,
-
-               },
-               content3: {
-                   fontSize: 11,
-                   italics: true,
-
-               },
-               contentItemBold: {
-                   fontSize: 10,
-                   bold: true,
-
-               },
-               headernote: {
-                   fontSize: 11,
-                   italics: true
-               },
-               footer: {
-                   fontSize: 10,
-
-               },
-           },
+             },
+             headerTable2: {
+                fontSize: 9,
+                bold: true,
+                color: 'white',
+                fillColor: 'black',
+                alignment: 'center'
+             },
+             headerTable3: {
+                fontSize: 9,
+                bold: true,
+                color: 'black',
+                fillColor: 'white',
+                alignment: 'center'
+             },
+             headerTable4: {
+                fontSize: 9,
+                bold: false,
+                color: 'black',
+                fillColor: 'white',
+                alignment: 'center'
+             },
+             contentTableChart: {
+                fontSize: 8,
+             },
+            footer: {
+                fontSize: 10,
+            },
+        },
     defaultStyle: {
-        columnGap: 20
+           columnGap: 20,
     }
-
 };
 
     const pdfDoc = pdfMake.createPdf(dd);

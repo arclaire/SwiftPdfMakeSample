@@ -9,7 +9,7 @@ var isFirstLoad = true
 class ViewController: UIViewController {
     @IBOutlet weak var webView: WebView!
     var strName: String?
-
+    var isFirstLoad = true
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,7 +45,6 @@ class ViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.callInjectData()
 
     }
 
@@ -124,10 +123,10 @@ class ViewController: UIViewController {
             let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
             // here "jsonData" is the dictionary encoded in JSON data
 
-            let decoded = String(data: jsonData, encoding: .utf8)!
+            let decodedForm = String(data: jsonData, encoding: .utf8)!
 
-            print("DECODED", decoded)
-            let script = "prepareData(\(decoded))"
+            print("DECODED", decodedForm)
+            let script = "prepareData(\(decodedForm))"
 
             self.webView.evaluateJavaScript(script) { (result: Any?, error: Error?) in
                 if let error = error {
@@ -201,7 +200,10 @@ extension ViewController: WKScriptMessageHandler {
 extension ViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         print("didFinish navigation:")
-
+        if self.isFirstLoad {
+            self.callInjectData()
+            self.isFirstLoad = false
+        }
     }
 
 }
