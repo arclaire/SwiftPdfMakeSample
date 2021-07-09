@@ -104,11 +104,11 @@ class ViewController: UIViewController {
                 print("evaluateJavaScript result: \(result ?? "")")
                 print("evaluateJavaScript ok = ")
 
-                if let resultString = result as? String {
-                    self.save(text: resultString,
-                              toDirectory: self.documentDirectory(),
-                              withFileName: "result.pdf")
-                }
+//                if let resultString = result as? String {
+//                    self.save(text: resultString,
+//                              toDirectory: self.documentDirectory(),
+//                              withFileName: "result.pdf")
+//                }
 
             }
         }
@@ -119,14 +119,19 @@ class ViewController: UIViewController {
         // "send_message(\"\(self.value1)\", \"\(self.value2)\")"
 
         let data = UtilsData.shared.modelForms[0].dictionary
+        var data2 = [UtilsData.shared.modelPlans[0].dictionary, UtilsData.shared.modelPlans[1].dictionary]
+        if UtilsData.shared.modelPlans[1].strName == "-" {
+            data2 = [UtilsData.shared.modelPlans[0].dictionary]
+        }
+
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
             // here "jsonData" is the dictionary encoded in JSON data
-
+            let jsonData2 = try JSONSerialization.data(withJSONObject: data2, options: .prettyPrinted)
             let decodedForm = String(data: jsonData, encoding: .utf8)!
-
-            print("DECODED", decodedForm)
-            let script = "prepareData(\(decodedForm))"
+            let decodedPlan = String(data: jsonData2, encoding: .utf8)!
+             print("DECODED", decodedForm, decodedPlan)
+            let script = "prepareData(\(decodedForm), \(decodedPlan))"
 
             self.webView.evaluateJavaScript(script) { (result: Any?, error: Error?) in
                 if let error = error {

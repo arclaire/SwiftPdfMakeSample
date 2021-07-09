@@ -56,6 +56,7 @@ struct ModelForm: Codable {
         case strCurrency = "currency"
         case strSmoker = "smoker"
         case strOccupation = "occupation"
+
     }
 
 }
@@ -72,7 +73,22 @@ struct ModelPlan: Codable {
     var strValue2: String
     var strValue3: String
     var strValue4: String
-
+    var dictionary: [String: Any] {
+        return
+            [
+                "code": strCode,
+                "name": strName,
+                "classification": strClassification,
+                "year1": strYear1,
+                "year2": strYear2,
+                "amount2": strAmount2,
+                "amount1": strAmount1,
+                "value1": strValue1,
+                "value2": strValue2,
+                "value3": strValue3,
+                "value4": strValue4
+            ]
+    }
     enum CodingKeys: String, CodingKey {
         case strName = "name"
         case strCode = "code"

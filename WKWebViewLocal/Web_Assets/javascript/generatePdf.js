@@ -44,8 +44,9 @@ var dataPlan = [
     }
 
 ];
-function prepareData(data) {
+function prepareData(data, plan) {
     dataHeader = data;
+    dataPlan = plan;
     console.log('LOGNAME' + data.name + dataHeader.frequency);
 }
 

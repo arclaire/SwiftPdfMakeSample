@@ -12,6 +12,9 @@ import Eureka
 class ViewControllerForm: FormViewController {
     var model: [ModelForm] = [ModelForm]()
 
+    let arrGender = ["Female", "Male"]
+    let arrPlan = ["AIA Pro Achiever I", "AIA Guaranteed Protect Plus II"]
+    let arrOccupation = ["Admin", "Accountant", "Programmer", "Doctor", "Staff IT", "Teacher", "Nurse"]
     override func viewDidLoad() {
         super.viewDidLoad()
         UtilsData.shared.getDataForm()
@@ -101,7 +104,64 @@ class ViewControllerForm: FormViewController {
                 }
             }
 
-            +++ Section()
+            +++ SelectableSection<ListCheckRow<String>>("Select Gender", selectionType: .singleSelection(enableDeselection: false))
+
+                    for option in arrGender {
+                        (self.form.last!) <<< ListCheckRow<String>(option) { listRow in
+                            listRow.title = option
+                            listRow.selectableValue = option
+                            listRow.value = nil
+                        }.onChange({ row in
+                            if row.title?.lowercased() == "Female".lowercased() {
+                                UtilsData.shared.modelForms[0].strGender = "F"
+                            } else {
+                                UtilsData.shared.modelForms[0].strGender = "M"
+                            }
+
+                        })
+                    }
+
+        self.form +++ MultipleSelectorRow<String> {
+            $0.title = "Select Plan"
+            $0.options = self.arrPlan
+            $0.value = []
+            }
+        .onChange({ row in
+            if let value = row.value {
+                let arr = Array(value)
+                if arr.count > 0 {
+                    if arr.count == 1 {
+                        UtilsData.shared.modelPlans[0].strName = arr[0]
+                        UtilsData.shared.modelPlans[1].strName = "-"
+                    } else {
+                        UtilsData.shared.modelPlans[0].strName = arr[0]
+                        UtilsData.shared.modelPlans[1].strName = arr[1]
+                    }
+                }
+                // print(UtilsData.shared.modelPlans[0].strName)
+                // print(UtilsData.shared.modelPlans[1].strName)
+                    // UtilsData.shared.modelPlans[0].strName = value.first!
+                    // UtilsData.shared.modelPlans[1].strName =
+
+            }
+
+        })
+            .onPresent { from, to in
+                to.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: from, action: #selector(ViewControllerForm.multipleSelectorDone(_:)))
+        }
+
+        <<< PickerInlineRow<String>("Occupation") {row in
+            row.title = "Occupation"
+            row.options = self.arrOccupation
+        }
+        .onChange({row in
+            if let value = row.value {
+                UtilsData.shared.modelForms[0].strOccupation = value
+            }
+
+        })
+
+        self.form +++ Section()
             <<< ButtonRow {
                 $0.title = "show pdf"
             }
@@ -111,12 +171,18 @@ class ViewControllerForm: FormViewController {
                 } else {
                     print("NotERROR")
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    print(UtilsData.shared.modelPlans[0].strName)
+                    print(UtilsData.shared.modelPlans[1].strName)
                     let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
                     vc.strName = UtilsData.shared.modelForms[0].strName
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }
 
+    }
+
+    @objc func multipleSelectorDone(_ item: UIBarButtonItem) {
+        _ = navigationController?.popViewController(animated: true)
     }
 
 }
