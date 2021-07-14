@@ -120,37 +120,49 @@ class ViewControllerForm: FormViewController {
 
                         })
                     }
+        self.form +++ SelectableSection<ListCheckRow<String>>("Select Plan", selectionType: .singleSelection(enableDeselection: false))
 
-        self.form +++ MultipleSelectorRow<String> {
-            $0.title = "Select Plan"
-            $0.options = self.arrPlan
-            $0.value = []
-            }
-        .onChange({ row in
-            if let value = row.value {
-                let arr = Array(value)
-                if arr.count > 0 {
-                    if arr.count == 1 {
-                        UtilsData.shared.modelPlans[0].strName = arr[0]
-                        UtilsData.shared.modelPlans[1].strName = "-"
-                    } else {
-                        UtilsData.shared.modelPlans[0].strName = arr[0]
-                        UtilsData.shared.modelPlans[1].strName = arr[1]
-                    }
+                for option in arrPlan {
+                    (self.form.last!) <<< ListCheckRow<String>(option) { listRow in
+                        listRow.title = option
+                        listRow.selectableValue = option
+                        listRow.value = nil
+                    }.onChange({ row in
+                        if let str = row.title {
+                            UtilsData.shared.modelPlans[0].strName = str
+                        }
+                    })
                 }
-                // print(UtilsData.shared.modelPlans[0].strName)
-                // print(UtilsData.shared.modelPlans[1].strName)
-                    // UtilsData.shared.modelPlans[0].strName = value.first!
-                    // UtilsData.shared.modelPlans[1].strName =
+//        self.form +++ MultipleSelectorRow<String> {
+//            $0.title = "Select Plan"
+//            $0.options = self.arrPlan
+//            $0.value = []
+//            }
+//        .onChange({ row in
+//            if let value = row.value {
+//                let arr = Array(value)
+//                if arr.count > 0 {
+//                    if arr.count == 1 {
+//                        UtilsData.shared.modelPlans[0].strName = arr[0]
+//                        UtilsData.shared.modelPlans[1].strName = "-"
+//                    } else {
+//                        UtilsData.shared.modelPlans[0].strName = arr[0]
+//                        UtilsData.shared.modelPlans[1].strName = arr[1]
+//                    }
+//                }
+//                // print(UtilsData.shared.modelPlans[0].strName)
+//                // print(UtilsData.shared.modelPlans[1].strName)
+//                    // UtilsData.shared.modelPlans[0].strName = value.first!
+//                    // UtilsData.shared.modelPlans[1].strName =
+//
+//            }
+//
+//        })
+//            .onPresent { from, to in
+//                to.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: from, action: #selector(ViewControllerForm.multipleSelectorDone(_:)))
+//        }
 
-            }
-
-        })
-            .onPresent { from, to in
-                to.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: from, action: #selector(ViewControllerForm.multipleSelectorDone(_:)))
-        }
-
-        <<< PickerInlineRow<String>("Occupation") {row in
+        self.form +++ PickerInlineRow<String>("Occupation") {row in
             row.title = "Occupation"
             row.options = self.arrOccupation
         }
@@ -172,7 +184,6 @@ class ViewControllerForm: FormViewController {
                     print("NotERROR")
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
                     print(UtilsData.shared.modelPlans[0].strName)
-                    print(UtilsData.shared.modelPlans[1].strName)
                     let vc = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
                     vc.strName = UtilsData.shared.modelForms[0].strName
                     self.navigationController?.pushViewController(vc, animated: true)

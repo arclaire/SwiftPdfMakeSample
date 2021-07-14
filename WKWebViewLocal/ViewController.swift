@@ -30,7 +30,11 @@ class ViewController: UIViewController {
         webView.configuration.userContentController.add(self, name: "logHandler")
 
         // Choose to load a file or a string
-        if let filePath = Bundle.main.path(forResource: "index", ofType: "html", inDirectory: "Web_Assets") {
+        var strHtml = "index3"
+        if UtilsData.shared.modelPlans[0].strName.contains("Pro Achiever") {
+            strHtml = "index"
+        }
+        if let filePath = Bundle.main.path(forResource: strHtml, ofType: "html", inDirectory: "Web_Assets") {
 
             do {
                 // load html string - baseURL needs to be set for local files to load correctly
@@ -96,7 +100,10 @@ class ViewController: UIViewController {
     }
 
     private func callJavascriptTapped() {
-        let script = "getPdf()"
+        var script = "getPdf2()"
+        if UtilsData.shared.modelPlans[0].strName.contains("Pro Achiever") {
+            script = "getPdf()"
+        }
         webView.evaluateJavaScript(script) { (result: Any?, error: Error?) in
             if let error = error {
                 print("evaluateJavaScript error: \(error)")
@@ -119,10 +126,7 @@ class ViewController: UIViewController {
         // "send_message(\"\(self.value1)\", \"\(self.value2)\")"
 
         let data = UtilsData.shared.modelForms[0].dictionary
-        var data2 = [UtilsData.shared.modelPlans[0].dictionary, UtilsData.shared.modelPlans[1].dictionary]
-        if UtilsData.shared.modelPlans[1].strName == "-" {
-            data2 = [UtilsData.shared.modelPlans[0].dictionary]
-        }
+        let data2 = [UtilsData.shared.modelPlans[0].dictionary]
 
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
@@ -131,8 +135,10 @@ class ViewController: UIViewController {
             let decodedForm = String(data: jsonData, encoding: .utf8)!
             let decodedPlan = String(data: jsonData2, encoding: .utf8)!
              print("DECODED", decodedForm, decodedPlan)
-            let script = "prepareData(\(decodedForm), \(decodedPlan))"
-
+            var script = "prepareData2(\(decodedForm), \(decodedPlan))"
+            if UtilsData.shared.modelPlans[0].strName.contains("Pro Achiever") {
+                 script = "prepareData(\(decodedForm), \(decodedPlan))"
+            }
             self.webView.evaluateJavaScript(script) { (result: Any?, error: Error?) in
                 if let error = error {
                     print("evaluateJavaScript error: \(error)")

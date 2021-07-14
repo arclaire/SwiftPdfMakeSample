@@ -29,20 +29,6 @@ var dataPlan = [
         "value3":"1250",
         "value4":"3000"
     },
-    {
-        "name":"AIA Pro Achiever II",
-        "code":"RFWI",
-        "classification":"Medium to High Risk",
-        "amount2":"Refer to Death Benefit",
-        "amount1":"4000",
-        "year1": "34",
-        "year2": "34",
-        "value1":"350",
-        "value2":"850",
-        "value3":"2500",
-        "value4":"4000"
-    }
-
 ];
 function prepareData(data, plan) {
     dataHeader = data;
