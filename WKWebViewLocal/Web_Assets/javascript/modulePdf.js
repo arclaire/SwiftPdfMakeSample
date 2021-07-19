@@ -921,7 +921,7 @@ function createPage1() {
                                 {
                                     margin: [0, 0, 0,0],
                                     style: 'contentItemBold',
-                                    text: 'This Cover Page is an important document. ',
+                                    text: 'This Cover Page is an important document\u2081. ',
                                     decoration: 'underline',
                                 },
                                 {
@@ -962,8 +962,7 @@ function createPage1() {
                                 {
                                     margin: [0,0,0,0],
                                     style: 'contentItemBoldCenter',
-                                    text: "x",
-                                    sup: { offset: '30%', fontSize: 8 }
+                                    text: "",
                                 },
                                 '',
                             ],
@@ -979,8 +978,16 @@ function createPage1() {
                                             {text: 'Participating Whole Life Plan', style: 'contentItemBoldCenter'}
                                         ],
                                         [
-                                            {text: 'Premium Term', style: 'contentItemBoldCenter'},
-                                            {text: '46 Years', style: 'contentItemBoldCenter'}
+                                            {
+                                                text: [
+                                                       {text:'Premium Term',fontSize: 11},
+                                                       {text:'4', fontSize: 8 ,sub: { offset: '30%', fontSize: 8 }},
+
+                                                      ],
+                                                style: 'contentItemBoldCenter'
+
+                                            },
+                                                {text: '46 Years', style: 'contentItemBoldCenter'}
                                         ],
 
                                         [
