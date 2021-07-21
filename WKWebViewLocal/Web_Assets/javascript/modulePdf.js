@@ -981,8 +981,8 @@ function createPage1() {
                                             {
                                                 text: [
                                                        {text:'Premium Term',fontSize: 11},
-                                                       {text:'4', fontSize: 8 ,sub: { offset: '30%', fontSize: 8 }},
-
+                                                       {text:'4', fontSize: 7 ,offset: '30%',sub: { offset: '30%', fontSize: 7 }},
+                                                       {text:'X',fontSize: 11},
                                                       ],
                                                 style: 'contentItemBoldCenter'
 
